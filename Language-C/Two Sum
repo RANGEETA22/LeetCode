@@ -1,0 +1,40 @@
+#Question statement [https://leetcode.com/problems/two-sum/?envType=problem-list-v2&envId=array&]
+
+#include <stdio.h>
+#include <stdlib.h>
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+   int i, j;
+   for(i=0;i<numsSize;i++){
+    for(j=i+1;j<numsSize;j++){
+        if(nums[i]+nums[j]==target){
+            int* newArr = malloc(2*sizeof(int));
+            newArr[0]=i;
+            newArr[1]=j;
+            *returnSize =2;
+            return newArr;
+        }
+    }
+   }
+   *returnSize=0;
+   return malloc(sizeof(int) * 0) ;
+}
+
+int main(){
+int arr[] = {2,7,11,15};
+int returnSize =0;
+int size= sizeof(arr)/sizeof(arr[0]);
+int target=9;
+
+int* result= twoSum(arr, size, target, &returnSize);
+
+ if (result != NULL && returnSize == 2) {
+        printf("Indices found: [%d, %d]\n", result[0], result[1]);
+        free(result);
+    } else {
+        printf("No solution found.\n");
+    }
+    
+    return 0;
+}
+
+
