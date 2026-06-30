@@ -1,0 +1,39 @@
+#problem- https://leetcode.com/problems/maximum-subarray/?envType=problem-list-v2&envId=array (Kadane's Algorithm)
+
+
+#include <stdio.h>
+int maxSubArray(int* nums, int numsSize) {
+    int sum=nums[0];
+    int max_sum= nums[0];
+
+    for(int i=1;i<numsSize;i++){
+        if(nums[i]> sum +nums[i]){
+            sum= nums[i];
+        }
+        else{
+            sum = sum + nums[i];
+        }
+
+        if(sum > max_sum){
+            max_sum = sum;
+        }
+
+    }
+    return max_sum;
+}
+
+int main(){
+int numsSize;
+printf("Enter the size of array: ");
+scanf("%d", &numsSize);
+
+int nums[numsSize];
+printf("Enter %d integers one by one:\n", numsSize);
+    for(int i = 0; i < numsSize; i++) {
+        scanf("%d", &nums[i]);
+    }
+int result = maxSubArray(nums, numsSize);
+
+printf("Output: %d", result);
+    
+}
