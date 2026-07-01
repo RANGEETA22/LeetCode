@@ -2,23 +2,37 @@
 
 #include <stdio.h>
 int maxProduct(int* nums, int numsSize) {
-    int current_product= nums[0];
+    int min_product= nums[0];
     int max_product = nums[0];
+    int ans= nums[0];
 
     for (int i=1; i<numsSize; i++){
-        if (nums [i] < nums[i] * current_product){
-            current_product = nums[i] * current_product;
+        if(nums[i] < 0){
+        int temp = max_product;
+        max_product = min_product;
+        min_product= temp;
+    }
+
+        if (nums [i] < nums[i] * max_product){
+            max_product = nums[i] * max_product;
         }
         else{
-            current_product= nums[i] * current_product;
+            max_product= nums[i];
         }
 
-        if(current_product > max_product){
-            max_product = current_product;
+        if (nums [i] < nums[i] * min_product){
+            min_product = nums[i];
+        }
+        else{
+            min_product= nums[i] * min_product;
+        }
+
+        if(ans < max_product){
+            ans = max_product;
         }
     }
 
-    return max_product;
+    return ans;
 }
 
 int main(){
