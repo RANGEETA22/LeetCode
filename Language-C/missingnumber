@@ -1,0 +1,25 @@
+#problem - https://leetcode.com/problems/missing-number/
+
+#include <stdio.h>
+
+int missingNumber(int* nums, int numsSize) {
+    int expected_sum = numsSize * (numsSize + 1) / 2;
+    int actual_sum = 0;
+
+    for (int i = 0; i < numsSize; i++) {
+        actual_sum += nums[i];
+    }
+
+    return expected_sum - actual_sum;
+}
+
+int main() {
+    int nums[] = {3, 0, 1};
+    int numsSize = sizeof(nums) / sizeof(nums[0]);
+
+    int result = missingNumber(nums, numsSize);
+
+    printf("Missing number = %d\n", result);
+
+    return 0;
+}
