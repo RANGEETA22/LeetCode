@@ -1,0 +1,32 @@
+
+#problem- https://leetcode.com/problems/majority-element/
+
+#include <stdio.h>
+
+int majorityElement(int* nums, int numsSize) {
+    for (int i = 1; i < numsSize; i++) { //insertion sort
+        int key = nums[i];
+        int j = i - 1;
+
+        while (j >= 0 && nums[j] > key) {
+            nums[j + 1] = nums[j];
+            j--;
+        }
+
+        nums[j + 1] = key;
+    }
+
+    // Majority element will be at the middle index because by definition the majority element occurs more than n/2 times
+    return nums[numsSize / 2];
+}
+
+int main() {
+    int nums[] = {2, 2, 1, 1, 1, 2, 2};
+    int numsSize = sizeof(nums) / sizeof(nums[0]);
+
+    int result = majorityElement(nums, numsSize);
+
+    printf("Majority Element = %d\n", result);
+
+    return 0;
+}
