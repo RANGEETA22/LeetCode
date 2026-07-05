@@ -1,0 +1,27 @@
+// Problem: https://leetcode.com/problems/palindrome-number/
+
+#include <stdio.h>
+bool isPalindrome(int x) {
+    long reverse =0, temp=x;
+    while(temp > 0){
+        reverse = (reverse *10) + (temp%10);
+        temp = temp /10;
+    }
+     if(x==reverse){
+        return true;
+        }
+    else{
+        return false;
+    }  
+}
+int main() {
+    int number = 121;
+
+    if (isPalindrome(number)) {
+        printf("%d is a palindrome.\n", number);
+    } else {
+        printf("%d is NOT a palindrome.\n", number);
+    }
+
+    return 0;
+}
