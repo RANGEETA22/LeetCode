@@ -1,0 +1,57 @@
+#problem - https://leetcode.com/problems/defuse-the-bomb/solutions/7921932/defuse-the-bomb-circular-sliding-sum-by-nqnqs/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int* decrypt(int* code, int codeSize, int k, int* returnSize) {
+    *returnSize = codeSize;
+    
+    int *new_arr = malloc(codeSize * sizeof(int));
+    if (new_arr == NULL) return NULL; 
+
+    for (int i = 0; i < codeSize; i++) {
+        if (k == 0) {
+            new_arr[i] = 0;
+        } 
+        else if (k > 0) {
+            int sum = 0;
+            for (int j = 1; j <= k; j++) {
+                int target_idx = (i + j) % codeSize;
+                sum += code[target_idx];
+            }
+            new_arr[i] = sum;
+        } 
+        else { 
+            int sum = 0;
+            int abs_k = -k; 
+            for (int j = 1; j <= abs_k; j++) {
+                int target_idx = (i - j + (codeSize * abs_k)) % codeSize;
+                sum += code[target_idx];
+            }
+            new_arr[i] = sum;
+        }
+    }
+
+    return new_arr;
+}
+
+int main() {
+    int code[] = {5, 7, 1, 4};
+    int codeSize = 4;
+    int k = 3;
+    int returnSize;
+
+    int* result = decrypt(code, codeSize, k, &returnSize);
+
+    if (result != NULL) {
+        printf("Decrypted array: ");
+        for (int i = 0; i < returnSize; i++) {
+            printf("%d ", result[i]);
+        }
+        printf("\n");
+        
+        free(result);
+    }
+
+    return 0;
+}
