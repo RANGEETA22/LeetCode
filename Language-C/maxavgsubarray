@@ -1,5 +1,5 @@
 #problem - https://leetcode.com/problems/maximum-average-subarray-i/submissions/2060838681/
-
+//sliding window problem
 #include <stdio.h>
 
 double findMaxAverage(int* nums, int numsSize, int k) {
