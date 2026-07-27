@@ -1,0 +1,65 @@
+/*problem - https://leetcode.com/problems/contains-duplicate/*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+//To create a Hashset using chaining. 
+struct Node{
+	int data;
+	struct Node* next;
+};
+
+
+bool containsDuplicate(int* nums, int numsSize){
+    int tablesize = numsSize * 2 + 1; //ideally the size is kept double the array size to prevent collision
+    struct Node** hashset = calloc(tablesize, sizeof(struct Node*));//allocates array of pointers and sets them to Null
+    
+    for (int i = 0; i<numsSize; i++){
+        int bucket = abs(nums[i]) % tablesize;//hashing function to store the data in a particular index
+        struct Node* curr = hashset[bucket];// to check if the value exists already in calculated bucket slot
+        
+        while (curr!= NULL){
+            if(curr->data == nums [i]){//means duplicate is found
+                for (int j = 0; j < numsSize; j++){
+                    struct Node* temp = hashset[j];
+                    while(temp){
+                        struct Node* next = temp -> next;
+                        free(temp); //important to free the nodes of the linkedlist and then the hashset(i.e inside out)
+                        temp = next;
+                    }
+                }
+                free(hashset);//all allocated memory freed
+                return true;
+            }
+            curr = curr-> next;
+        }
+        // Value is unique so far so create a new Node and add it to the front of the bucket
+
+        struct Node* newNode = malloc(sizeof(struct Node));
+        newNode->data = nums[i];
+        
+        newNode->next = hashset[bucket];
+        hashset[bucket] = newNode;
+    }
+       // when loop completes but no duplicates found. Clean all allocated memory
+    for (int i = 0; i< numsSize; i++){
+        struct Node* curr = hashset[i];
+        while (curr){
+            struct Node* temp = curr;
+            curr = curr -> next;
+            free(temp);
+        }
+        
+    }
+    free(hashset);
+    return false;
+    }
+    
+int main() {
+    int test[] = {1, 2, 3, 1};
+    int size = sizeof(test) / sizeof(test[0]);
+    bool result = containsDuplicate(test, size);
+    
+    printf("Output: %s\n\n", result? "true" : "false");
+}
