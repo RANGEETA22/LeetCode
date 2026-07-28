@@ -1,0 +1,20 @@
+/*problem= https://leetcode.com/problems/valid-anagram/submissions/2084473059/ */
+
+class Solution:
+  def isAnagram(self, s: str, t: str) -> bool:
+  if len(s) != len(t): //first test is to check whether they have equal length or not
+    return False
+
+    countS = {} //since this hashmap will contain key value pairs, the standard way to do this is through dictionary
+    countT = {}
+
+    for i in range (len(s)): //for creating the hashmap and storing the frequencies
+      countS[s[i]]= 1+countS.get(s[i],0) //it looks up the current count of the character. if s[i] hasn't been seen yet then it returns 0 as default
+      countT[t[i]] = 1+countT.get(t[i], 0)
+
+    for c in countS: //it itereates over every unique character in hashmap and sees if the frequencies match of countS and countT of same letters
+      if countS[c] != countT.get(c, 0): //if a character is encountered where it appears in s but not in t(wholly) then 0 is returned automatically
+        return False
+    return True
+
+print(Solution().isAnagram("anagram", "nagaram"))
