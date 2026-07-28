@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-//To create a Hashset using chaining. 
+//To create a Hashset using chaining, first define linked list
 struct Node{
 	int data;
 	struct Node* next;
@@ -13,15 +13,15 @@ struct Node{
 
 bool containsDuplicate(int* nums, int numsSize){
     int tablesize = numsSize * 2 + 1; //ideally the size is kept double the array size to prevent collision
-    struct Node** hashset = calloc(tablesize, sizeof(struct Node*));//allocates array of pointers and sets them to Null
+    struct Node** hashset = calloc(tablesize, sizeof(struct Node*));//allocates array of pointers and sets them to Null.these are facts and won't change
     
     for (int i = 0; i<numsSize; i++){
-        int bucket = abs(nums[i]) % tablesize;//hashing function to store the data in a particular index
+        int bucket = abs(nums[i]) % tablesize;//to allocate position of each data in hashset using hashfunction
         struct Node* curr = hashset[bucket];// to check if the value exists already in calculated bucket slot
         
-        while (curr!= NULL){
+        while (curr!= NULL){//traversing technique
             if(curr->data == nums [i]){//means duplicate is found
-                for (int j = 0; j < numsSize; j++){
+                for (int j = 0; j < tablesize; j++){
                     struct Node* temp = hashset[j];
                     while(temp){
                         struct Node* next = temp -> next;
@@ -32,7 +32,7 @@ bool containsDuplicate(int* nums, int numsSize){
                 free(hashset);//all allocated memory freed
                 return true;
             }
-            curr = curr-> next;
+            curr = curr-> next;  //moves pointer to next node of the overall linked list
         }
         // Value is unique so far so create a new Node and add it to the front of the bucket
 
@@ -40,10 +40,10 @@ bool containsDuplicate(int* nums, int numsSize){
         newNode->data = nums[i];
         
         newNode->next = hashset[bucket];
-        hashset[bucket] = newNode;
+        hashset[bucket] = newNode;//makes the newnode the start of ll for that bucket
     }
        // when loop completes but no duplicates found. Clean all allocated memory
-    for (int i = 0; i< numsSize; i++){
+    for (int i = 0; i< tablesize; i++){
         struct Node* curr = hashset[i];
         while (curr){
             struct Node* temp = curr;
